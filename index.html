@@ -6,158 +6,56 @@
   <title>The Journey Motorcycles</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="home-page" class="hidden-until-intro">
-
-  <!-- Intro Video Animation -->
-  <div id="intro-overlay">
-    <video id="intro-video" autoplay muted playsinline>
-      <source src="assets/img/intro-logo.mp4" type="video/mp4">
-    </video>
-  </div>
-
-  <header>
-    <div class="nav">
-      <a href="index.html" class="logo">
-        <img src="assets/img/logo.jpg" alt="">
-      </a>
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="galleria.html">Galleria</a>
-        <a href="prossime.html">Prossime Uscite</a>
-        <a href="newsletter.html">Newsletter</a>
-      </nav>
-      <button class="burger" onclick="toggleMobileNav()">☰</button>
-    </div>
-  </header>
-
-  <main class="container">
-    <section class="hero">
-      <h1>THE JOURNEY MOTORCYCLES</h1>
-      <p>Motociclisti uniti dalla stessa strada</p>
-    </section>
+<body class="hidden-until-intro">
+  <main>
+    <h1>Benvenuto su The Journey Motorcycles</h1>
+    <p>Scopri le nostre avventure.</p>
   </main>
 
-<section id="chi-siamo" class="chi-siamo-section">
-  <h2 class="section-title">Chi Siamo</h2>
-
-  <div class="chi-siamo-item fade-section">
-    <img src="assets/img/moto/gruppo/gruppo10.jpg" alt="Il nostro team">
-    <div class="chi-siamo-text">
-      <h3>La nostra passione</h3>
-      <p>
-        Siamo un gruppo di appassionati di moto che vive la strada come una forma di libertà.
-        Ogni uscita è un’esperienza, ogni curva una storia da raccontare.
-      </p>
-    </div>
+  <div id="splash-overlay" class="splash-overlay" aria-hidden="true" style="display:none">
+    <video id="splash-video" playsinline muted preload="auto"></video>
   </div>
 
-  <div class="chi-siamo-item fade-section reverse">
-    <img src="assets/img/moto/gruppo/merch4.jpg" alt="Radici del gruppo">
-    <div class="chi-siamo-text">
-      <h3>Le nostre radici</h3>
-      <p>
-        Nato tra amici, il nostro gruppo si è evoluto in una vera community.
-        Condividiamo valori, esperienze e una passione che ci unisce oltre ogni distanza.
-      </p>
-    </div>
-  </div>
+  <script>
+  (function(){
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const seen = localStorage.getItem('tj_seen_intro');
+    const overlay = document.getElementById('splash-overlay');
+    const videoEl = document.getElementById('splash-video');
+    const desktopSrc = 'assets/videos/intro-logo.mp4';
+    const mobileSrc = 'assets/videos/intro_mobile_2_7s.mp4';
+    const chosen = isMobile ? mobileSrc : desktopSrc;
+    videoEl.src = chosen;
+    videoEl.autoplay = true;
+    videoEl.muted = true;
+    videoEl.playsInline = true;
 
-  <div class="chi-siamo-item fade-section">
-    <img src="assets/img/moto/gruppo/gruppo3.jpg" alt="In viaggio">
-    <div class="chi-siamo-text">
-      <h3>In viaggio insieme</h3>
-      <p>
-        Ogni tragitto è un’occasione per scoprire nuovi paesaggi, nuove persone e sé stessi.
-        Le nostre moto sono il filo che collega ogni avventura.
-      </p>
-    </div>
-  </div>
-</section>
-
-
-  <!-- Puzzle fotografico -->
-<section class="photo-puzzle-section">
-  <h2>La Community</h2>
-  <div class="photo-puzzle" id="gallery"></div>
-</section>
-
-<!-- Importa lo script immagini -->
-<script src="js/images.js"></script>
-<script src="js/puzzle.js"></script>
-
-  <footer class="site-footer">
-    <div class="footer-content">
-      <div class="footer-left">
-        <h3>The Journey Motorcycle</h3>
-      </div>
-
-      <div class="footer-center">
-        <p><strong>Contatti:</strong></p>
-        <p>📞 +39 333 123 4567</p>
-        <p>✉️ thejourneymotorcycle@gmail.com</p>
-      </div>
-
-      <div class="footer-right">
-        <p><strong>Seguici su</strong></p>
-        <a href="https://www.instagram.com/thejourneymotorcycles/#" target="_blank" class="social-link">
-          <img src="assets/icons/instagram.svg" alt="Instagram">
-        </a>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <p>© 2025 The Journey Motorcycle – Tutti i diritti riservati</p>
-    </div>
-  </footer>
-
-  <script src="js/main.js"></script>
-  <script src="js/intro.js"></script>
-
-<!-- Splash overlay inserted by assistant -->
-<div id="splash-overlay" class="splash-overlay" aria-hidden="true" style="display:none">
-  <video id="splash-video" playsinline muted preload="auto"></video>
-</div>
-<script>
-(function(){
-  const isMobile = window.matchMedia("(max-width: 768px)").matches;
-  const seen = localStorage.getItem('tj_seen_intro');
-  const overlay = document.getElementById('splash-overlay');
-  const videoEl = document.getElementById('splash-video');
-  const desktopSrc = 'assets/videos/intro-logo.mp4';
-  const mobileSrc = 'assets/videos/intro_mobile_2_7s.mp4';
-  const chosen = isMobile ? mobileSrc : desktopSrc;
-  videoEl.src = chosen;
-  videoEl.autoplay = true;
-  videoEl.muted = true;
-  videoEl.playsInline = true;
-  function finishIntro(){
-    overlay.style.opacity = 0;
-    overlay.style.pointerEvents = 'none';
-    document.body.classList.remove('hidden-until-intro');
-    document.body.classList.add('intro-done');
-  }
-  if (!seen) {
-    overlay.style.display = 'flex';
-    videoEl.addEventListener('ended', function(){ 
-      localStorage.setItem('tj_seen_intro', '1');
-      finishIntro();
-      videoEl.src='';
-    });
-    const playPromise = videoEl.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(()=>{
-        setTimeout(()=>{ localStorage.setItem('tj_seen_intro','1'); finishIntro(); }, 3000);
-      });
+    function finishIntro(){
+      overlay.style.opacity = 0;
+      overlay.style.pointerEvents = 'none';
+      document.body.classList.remove('hidden-until-intro');
+      document.body.classList.add('intro-done');
     }
-  } else {
-    overlay.style.display = 'none';
-    document.body.classList.remove('hidden-until-intro');
-    document.body.classList.add('intro-done');
-  }
-})();
-</script>
-<!-- end injected splash -->
 
+    if (!seen) {
+      overlay.style.display = 'flex';
+      videoEl.addEventListener('ended', function(){
+        localStorage.setItem('tj_seen_intro', '1');
+        finishIntro();
+        videoEl.src='';
+      });
+      const playPromise = videoEl.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(()=>{
+          setTimeout(()=>{ localStorage.setItem('tj_seen_intro','1'); finishIntro(); }, 3000);
+        });
+      }
+    } else {
+      overlay.style.display = 'none';
+      document.body.classList.remove('hidden-until-intro');
+      document.body.classList.add('intro-done');
+    }
+  })();
+  </script>
 </body>
 </html>
-
